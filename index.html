@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOVA KICKS | Premium Footwear</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --neon-blue: #00f6ff;
+            --neon-white: #f0f9ff;
+            --bg-dark: #0a0a0a;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 8px rgba(0, 246, 255, 0.8);
+            }
+            50% {
+                text-shadow: 0 0 15px rgba(0, 246, 255, 1), 0 0 25px rgba(0, 246, 255, 0.6);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(0, 246, 255, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 15px rgba(0, 246, 255, 0.8);
+            }
+        }
+
+        .neon-text {
+            color: var(--neon-blue);
+            animation: glow 3s infinite;
+        }
+
+        .neon-border {
+            border: 1px solid var(--neon-blue);
+            animation: pulse 3s infinite;
+        }
+
+        .neon-bg {
+            background-color: rgba(0, 246, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--neon-white);
+        }
+
+        .nav-link:hover {
+            color: var(--neon-blue);
+            text-decoration: none;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .login-form input:focus {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 5px rgba(0, 246, 255, 0.5);
+        }
+
+        .btn-primary {
+            background-color: transparent;
+            border: 1px solid var(--neon-blue);
+            color: var(--neon-white);
+            transition: all 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--neon-blue);
+            color: var(--bg-dark);
+        }
+
+        .blinking-cursor:after {
+            content: "|";
+            color: var(--neon-blue);
+            animation: blink 1s step-end infinite;
+        }
+
+       @keyframes blink {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+} /* <-- this closing brace was missing */
+
+ /* New Shoe Slider Styles */
+.shoe-slider {
+    perspective: 1000px;
+}
+.shoe-slide {
+    transition: transform 0.5s ease;
+}
+
+        .shoe-slide:hover {
+            transform: translateZ(50px);
+        }
+        .shoe-caption {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .shoe-slide:hover .shoe-caption {
+            opacity: 1;
+        }
+        /* Quick View Animation */
+        .quick-view-btn {
+            transform: translate(-50%, -10px) scale(0.9);
+        }
+        .quick-view-btn:hover {
+            transform: translate(-50%, -10px) scale(1);
+        }
+    </style>
+     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VG0CBN9X17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-VG0CBN9X17');
+    </script>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    <nav class="bg-black bg-opacity-90 backdrop-blur-md fixed w-full z-50 px-6 py-4 border-b border-gray-900">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#home" class="flex items-center space-x-2">
+                <span class="text-2xl font-bold neon-text">NOVA KICKS</span>
+                <span class="text-xs text-gray-400">PREMIUM FOOTWEAR</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="nav-link text-white hover:text-neon-blue transition">Home</a>
+                <a href="#products" class="nav-link text-white hover:text-neon-blue transition">Products</a>
+                <a href="#categories" class="nav-link text-white hover:text-neon-blue transition">Categories</a>
+                <a href="#about" class="nav-link text-white hover:text-neon-blue transition">About</a>
+                <a href="#contact" class="nav-link text-white hover:text-neon-blue transition">Contact</a>
+                <button onclick="toggleLogin()" class="bg-transparent border border-[#00f0ff] text-white px-6 py-2 rounded-md hover:bg-black hover:text-[#00f0ff] transition">
+  Login
+</button>
+
+            
+            <button class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center hidden">
+        <div class="bg-gray-900 p-8 rounded-xl max-w-md w-full neon-border mx-4">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold neon-text">Welcome Back</h2>
+                <button onclick="toggleLogin()" class="text-gray-400 hover:text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="loginForm" class="space-y-4">
+                <div class="space-y-2">
+                    <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
+                    <input type="email" id="email" required 
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1">
+                </div>
+                
+                <div class="space-y-2">
+                    <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+                    <input type="password" id="password" required 
+                        class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1">
+                </div>
+                
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <input id="remember" type="checkbox" 
+                            class="h-4 w-4 text-neon-blue focus:ring-neon-blue border-gray-600 rounded">
+                        <label for="remember" class="ml-2 block text-sm text-gray-300">Remember me</label>
+                    </div>
+                    
+                    <a href="#" class="text-sm text-neon-blue hover:underline">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="w-full btn-primary py-3 px-4 rounded-md font-medium">
+                    Sign In
+                </button>
+                
+                <p class="text-center text-gray-400 text-sm">
+                    Don't have an account? 
+                    <a href="#" class="text-neon-blue hover:underline">Register</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hero Section with 3D Shoe Slider -->
+    <section id="home" class="relative pt-24 pb-16 md:pt-32 md:pb-24">
+        <div class="shoe-slider absolute inset-0 overflow-hidden">
+            <div class="shoe-slide">
+               <img src="o.jpg" 
+           alt="NOVA-X Quantum sneaker rotating 360° with neon blue glow effects" 
+           style="width: 1900px; height:450px;  margin-left:19%; margin-top: 70px;" 
+           class="object-contain" />
+                <div class="shoe-caption">
+                    <h3 class="text-xl neon-text">NEW RELEASE</h3>
+                    <p class="text-neon-blue">360° View Available</p>
+                </div>
+            </div>
+            <!-- More slides -->
+        </div>
+        <div class="shoe-slider-nav absolute bottom-10 left-0 right-0 flex justify-center gap-4 z-20">
+            <button class="w-3 h-3 rounded-full bg-gray-600 hover:bg-neon-blue"></button>
+            <button class="w-3 h-3 rounded-full bg-gray-600 hover:bg-neon-blue"></button>
+            <button class="w-3 h-3 rounded-full bg-gray-600 hover:bg-neon-blue"></button>
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="max-w-2xl">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+                    Step Into The <span class="neon-text">Future</span> <span class="blinking-cursor"></span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8">
+                    Discover limited edition sneakers with cutting-edge technology and futuristic designs. Elevate your style with our exclusive footwear collection.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#products" class="btn-primary px-8 py-3 rounded-md font-medium text-lg">
+                        Shop Now
+                    </a>
+                    <a href="#categories" class="border border-gray-700 px-8 py-3 rounded-md font-medium text-lg hover:bg-gray-800 transition">
+                        Explore Collections
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="products" class="py-16 bg-gray-900 bg-opacity-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2">Featured <span class="neon-text">Kicks</span></h2>
+                    <p class="text-gray-400">Limited edition releases and exclusive collaborations</p>
+                </div>
+                <a href="#products" class="text-neon-blue hover:underline hidden md:block">View All</a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Product 1 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a250ce00-d659-4f9f-9702-2a64299b0e86.png" alt="NOVA-X Quantum sneaker in white with glowing blue accents and futuristic light-up soles" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button onclick="showQuickView('nova-x-quantum')" class="quick-view-btn absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition-all hover:scale-110">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">NOVA-X Quantum</h3>
+                        <p class="text-gray-400 mb-2">Limited Edition</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$249</span>
+                            <span class="text-xs bg-neon-blue bg-opacity-20 text-neon-blue px-2 py-1 rounded">NEW</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 2 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/29f01b1b-31b6-4f01-b7bc-97143fe4b56f.png" alt="Cyber Runner Pro in black with neon blue reflex detailing and adaptive cushioning technology" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Cyber Runner Pro</h3>
+                        <p class="text-gray-400 mb-2">Performance</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$199</span>
+                            <span class="text-xs bg-red-500 bg-opacity-20 text-red-500 px-2 py-1 rounded">SALE</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 3 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/25d7d9cb-ba64-4ae4-a00a-2f8cb4a1d848.png" alt="Lunar Glide 5.0 in silver with reflective mesh upper and energy-return midsole" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Lunar Glide 5.0</h3>
+                        <p class="text-gray-400 mb-2">Running</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$179</span>
+                            <span class="text-xs bg-yellow-500 bg-opacity-20 text-yellow-500 px-2 py-1 rounded">HOT</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 4 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b30da251-4d72-4b02-a1e5-d74156925be6.png" alt="Neon Vapor Retro in vintage design with modern materials and light-up NOVA logo" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Neon Vapor Retro</h3>
+                        <p class="text-gray-400 mb-2">Casual</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$159</span>
+                            <span class="text-xs bg-purple-500 bg-opacity-20 text-purple-500 px-2 py-1 rounded">EXCLUSIVE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section id="categories" class="py-16 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center">Our <span class="neon-text">Collections</span></h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Running Category Slider -->
+                <div class="category-card-slider bg-gray-900 rounded-xl overflow-hidden relative group h-96">
+                    <div class="shoe-carousel flex transition-transform" style="width: 300%">
+                        <div class="w-full h-96">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f3fa5eac-35b6-4f8e-a45b-e623ff98dfda.png" 
+                                 alt="High-performance running shoe with responsive cushioning"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-full h-96">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6bc81a37-e4ca-4196-96f2-84ef2d20e9e0.png" 
+                                 alt="Lightweight running gear for marathon training"
+                                 class="w-full h-full object-cover">
+                        </div>
+                        <div class="w-full h-96">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d9a483af-fb0f-44b9-a1a3-a029cd8c99b8.png" 
+                                 alt="Carbon-fiber racing shoe with aerodynamic design"
+                                 class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold mb-2">Running</h3>
+                        <p class="text-gray-300 mb-4">Designed for performance and endurance with cutting-edge technology</p>
+                        <a href="#" class="text-neon-blue font-medium hover:underline inline-flex items-center">
+                            Explore Collection
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Basketball -->
+                <div class="category-card bg-gray-900 rounded-xl overflow-hidden relative group h-96">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6d336aba-9c9f-4b51-ba94-568129499767.png" alt="High-top basketball shoes with impact protection and ankle support in bold colorways" 
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold mb-2">Basketball</h3>
+                        <p class="text-gray-300 mb-4">Court-ready sneakers with superior support and responsive cushioning</p>
+                        <a href="#" class="text-neon-blue font-medium hover:underline inline-flex items-center">
+                            Explore Collection
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Lifestyle -->
+                <div class="category-card bg-gray-900 rounded-xl overflow-hidden relative group h-96">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/4cbc8c48-387d-40ee-9689-3dec0a2fb73e.png" alt="Trendy lifestyle sneakers in modern color palettes suitable for streetwear and casual outfits" 
+                        class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-8">
+                        <h3 class="text-2xl font-bold mb-2">Lifestyle</h3>
+                        <p class="text-gray-300 mb-4">Streetwear essentials that blend comfort with contemporary style</p>
+                        <a href="#" class="text-neon-blue font-medium hover:underline inline-flex items-center">
+                            Explore Collection
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="category-tag bg-gray-900 rounded-lg p-4 text-center hover:bg-gray-800 transition">
+                    <div class="w-16 h-16 mx-auto mb-3 bg-gray-800 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-neon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <a href="#" class="font-medium hover:text-neon-blue">Running</a>
+                </div>
+                
+                <div class="category-tag bg-gray-900 rounded-lg p-4 text-center hover:bg-gray-800 transition">
+                    <div class="w-16 h-16 mx-auto mb-3 bg-gray-800 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-neon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
+                    </div>
+                    <a href="#" class="font-medium hover:text-neon-blue">Basketball</a>
+                </div>
+                
+                <div class="category-tag bg-gray-900 rounded-lg p-4 text-center hover:bg-gray-800 transition">
+                    <div class="w-16 h-16 mx-auto mb-3 bg-gray-800 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-neon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                        </svg>
+                    </div>
+                    <a href="#" class="font-medium hover:text-neon-blue">Lifestyle</a>
+                </div>
+                
+                <div class="category-tag bg-gray-900 rounded-lg p-4 text-center hover:bg-gray-800 transition">
+                    <div class="w-16 h-16 mx-auto mb-3 bg-gray-800 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-neon-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                    </div>
+                    <a href="#" class="font-medium hover:text-neon-blue">Limited Edition</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Full Product Grid -->
+    <section class="py-16 bg-gray-900 bg-opacity-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-2">All <span class="neon-text">Products</span></h2>
+                    <p class="text-gray-400">Browse our complete collection of premium footwear</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <select class="bg-gray-800 border border-gray-700 text-white px-4 py-2 pr-8 rounded-md appearance-none focus:outline-none focus:ring-1 focus:ring-neon-blue">
+                            <option>Sort by: Featured</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                            <option>Newest First</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Product 5 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f96862a8-6015-46bc-bb07-9e01e231249b.png" alt="Aero Boost Ultra in carbon fiber and neon accents with adaptive lacing system" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Aero Boost Ultra</h3>
+                        <p class="text-gray-400 mb-2">Performance</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$189</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.8</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 6 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/570a576f-e648-4334-814b-dd74b18e4700.png" alt="Phantom Court Elite in classic high-top design with responsive cushioning for basketball" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Phantom Court Elite</h3>
+                        <p class="text-gray-400 mb-2">Basketball</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$219</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 7 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1f780073-ee0f-4310-8e3a-42249c4efd8f.png" alt="Urban Hiker GTX in waterproof construction with rugged outsole for all-terrain use" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Urban Hiker GTX</h3>
+                        <p class="text-gray-400 mb-2">Outdoor</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$179</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 8 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/fb34e350-b3ad-43e5-9382-49493c4da566.png" alt="Velocity Racer Pro in sleek metallic finish with carbon fiber details for maximum speed" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Velocity Racer Pro</h3>
+                        <p class="text-gray-400 mb-2">Running</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$229</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.9</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 9 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/93b618ca-a8a3-411d-a066-409e909bfa70.png" alt="Mesh Lite Runner in breathable knit construction with ultra-lightweight cushioning" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Mesh Lite Runner</h3>
+                        <p class="text-gray-400 mb-2">Training</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$149</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.5</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 10 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7d755bd7-0284-4e53-ae90-973f7a280177.png" alt="Skybound OG in classic retro design with premium leather and visible air cushioning" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Skybound OG</h3>
+                        <p class="text-gray-400 mb-2">Retro</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$169</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.6</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 11 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/81d31503-5f37-41e0-898a-76813e3e2eff.png" alt="Reactive Trail in aggressive lug pattern for technical terrain with weather-resistant upper" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Reactive Trail</h3>
+                        <p class="text-gray-400 mb-2">Trail Running</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$199</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">4.7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Product 12 -->
+                <div class="product-card bg-gray-900 rounded-xl p-6 transition-all duration-300 relative group overflow-hidden">
+                    <div class="relative overflow-hidden rounded-lg h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/8897788f-49ad-4943-ba1a-d7f3e69bbb32.png" alt="Cosmic Phantom in futuristic all-white design with glow-in-the-dark elements and reactive lacing" 
+                            class="w-full h-full object-contain transition duration-500 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition"></div>
+                        <button class="absolute bottom-4 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 bg-neon-blue text-black px-6 py-2 rounded-full font-bold transition">
+                            Quick View
+                        </button>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="font-bold text-lg">Cosmic Phantom</h3>
+                        <p class="text-gray-400 mb-2">Limited Edition</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-xl">$299</span>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                <span class="text-xs ml-1 text-gray-400">5.0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 flex justify-center">
+                <button class="btn-primary px-8 py-3 rounded-md font-medium text-lg">
+                    Load More
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-black">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Our <span class="neon-text">Story</span></h2>
+                    <p class="text-gray-400 mb-6">
+                        Founded in 2024, NOVA KICKS began as a passion project between three footwear engineers who shared a vision for merging cutting-edge technology with revolutionary design.
+                    </p>
+                    <p class="text-gray-400 mb-6">
+                        What started in a small workshop has grown into a global movement, pushing the boundaries of what footwear can be. We combine aerospace-grade materials with biomechanical research to create shoes that don't just perform - they inspire.
+                    </p>
+                    <p class="text-gray-400 mb-8">
+                        Each pair is a statement, a piece of wearable innovation designed for those who don't just follow trends - they set them.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-gray-900 rounded-lg p-6 text-center w-32">
+                            <span class="text-3xl font-bold neon-text">300+</span>
+                            <p class="text-gray-400 text-sm">Models</p>
+                        </div>
+                        <div class="bg-gray-900 rounded-lg p-6 text-center w-32">
+                            <span class="text-3xl font-bold neon-text">50+</span>
+                            <p class="text-gray-400 text-sm">Countries</p>
+                        </div>
+                        <div class="bg-gray-900 rounded-lg p-6 text-center w-32">
+                            <span class="text-3xl font-bold neon-text">1M+</span>
+                            <p class="text-gray-400 text-sm">Customers</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="rounded-xl overflow-hidden h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/872c2039-c49d-4429-b547-6f00dfa9e612.png" alt="Founders of NOVA KICKS in their original workshop with early shoe prototypes on the table" 
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div class="rounded-xl overflow-hidden h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c81d4133-46c2-49df-9a08-5b0509208a55.png" alt="Modern NOVA KICKS manufacturing facility with robotic arms assembling shoe components" 
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div class="rounded-xl overflow-hidden h-64">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/6b1c61fd-95b7-4174-9b5f-3527bbfd3cb9.png" alt="Athlete wearing NOVA KICKS shoes in motion on a track with light trails" 
+                            class="w-full h-full object-cover">
+                    </div>
+                    <div class="rounded-xl overflow-hidden h-64 neon-bg flex items-center justify-center">
+                        <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/891458b9-abfd-4dd7-a281-ff0f9716dce0.png" alt="NOVA KICKS logo animation with glowing blue elements" 
+                            class="w-32 h-32 object-contain">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-900 bg-opacity-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Get In <span class="neon-text">Touch</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Have questions about our products or want to collaborate? Reach out to our team - we'd love to hear from you.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="bg-gray-900 p-8 rounded-xl neon-border">
+                    <h3 class="text-xl font-bold mb-6">Send Us A Message</h3>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                                <input type="text" id="name" 
+                                    class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-neon-blue">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                                <input type="email" id="email" 
+                                    class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-neon-blue">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-300 mb-2">Subject</label>
+                            <input type="text" id="subject" 
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-neon-blue">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                            <textarea id="message" rows="4" 
+                                class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-neon-blue"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary px-8 py-3 rounded-md font-medium w-full">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+                
+                <div>
+                    <div class="bg-gray-900 p-8 rounded-xl mb-8 neon-border">
+                        <h3 class="text-xl font-bold mb-6">Contact Information</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 text-neon-blue mt-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                </div>
+                                <p class="ml-4 text-gray-400">
+                                    123 Futurist Drive<br>
+                                    Neon District, CA 90210<br>
+                                    United States
+                                </p>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 text-neon-blue">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                    </svg>
+                                </div>
+                                <p class="ml-4 text-gray-400">+1 (555) 123-4567</p>
+                            </div>
+                            
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 text-neon-blue">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                    </svg>
+                                </div>
+                                <p class="ml-4 text-gray-400">info@novakicks.com</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 p-8 rounded-xl neon-border">
+                        <h3 class="text-xl font-bold mb-6">Store Hours</h3>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Monday - Friday</span>
+                                <span class="text-white">9:00 AM - 8:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Saturday</span>
+                                <span class="text-white">10:00 AM - 7:00 PM</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-400">Sunday</span>
+                                <span class="text-white">11:00 AM - 6:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="py-16 bg-black border-t border-gray-800">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">Join The <span class="neon-text">Movement</span></h2>
+            <p class="text-gray-400 mb-8 max-w-2xl mx-auto">
+                Subscribe to our newsletter for exclusive releases, early access, and members-only content.
+            </p>
+            <form class="flex flex-col sm:flex-row gap-4 justify-center">
+                <input type="email" placeholder="Your email address" 
+                    class="px-6 py-3 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-1 focus:ring-neon-blue sm:w-96">
+                <button type="submit" class="btn-primary px-8 py-3 rounded-md font-medium">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-800 py-12 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12">
+                <div class="col-span-2">
+                    <div class="flex items-center space-x-2 mb-6">
+                        <span class="text-2xl font-bold neon-text">NOVA KICKS</span>
+                    </div>
+                    <p class="text-gray-400 mb-6">
+                        Pushing the boundaries of footwear innovation. Designed for the future, available today.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-neon-blue transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-neon-blue transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-neon-blue transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-6">Shop</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">All Products</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Featured</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Collections</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-6">About</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Our Story</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Technology</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Careers</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-gray-300 font-bold mb-6">Support</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Shipping</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-neon-blue transition">Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                    © 2024 NOVA KICKS. All rights reserved.
+                </p>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-500 text-sm hover:text-neon-blue transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 text-sm hover:text-neon-blue transition">Terms of Service</a>
+                    <a href="#" class="text-gray-500 text-sm hover:text-neon-blue transition">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle login modal
+        function toggleLogin() {
+            const modal = document.getElementById('loginModal');
+            modal.classList.toggle('hidden');
+        }
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login functionality would be implemented here in a production environment');
+            toggleLogin();
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Shoe Slider Functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.shoe-slide');
+        function rotateShoes() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            document.querySelector('.shoe-slider').style.transform = `rotateY(${currentSlide * 45}deg)`;
+            setTimeout(rotateShoes, 3000);
+        }
+        rotateShoes();
+
+        // Quick View Modal
+        function showQuickView(productId) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center';
+            modal.innerHTML = `
+                <div class="bg-gray-900 p-8 rounded-xl max-w-4xl w-full neon-border mx-4">
+                    <button onclick="this.parentElement.parentElement.remove()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <h2 class="text-2xl font-bold neon-text mb-6">Product Details</h2>
+                    <!-- Product content would be loaded here based on productId -->
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+    </script>
+</body>
+</html>
