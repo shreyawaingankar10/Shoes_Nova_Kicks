@@ -21,7 +21,18 @@
     <!-- ✅ Favicon -->
     <link rel="icon" type="image/png" href="l.png">
 
+    <!-- ✅ Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ✅ Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VG0CBN9X17"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-VG0CBN9X17');
+    </script>
+
     <style>
         :root {
             --neon-blue: #00f6ff;
@@ -47,19 +58,9 @@
             }
         }
 
-        .neon-text {
-            color: var(--neon-blue);
-            animation: glow 3s infinite;
-        }
-
-        .neon-border {
-            border: 1px solid var(--neon-blue);
-            animation: pulse 3s infinite;
-        }
-
-        .neon-bg {
-            background-color: rgba(0, 246, 255, 0.1);
-        }
+        .neon-text { color: var(--neon-blue); animation: glow 3s infinite; }
+        .neon-border { border: 1px solid var(--neon-blue); animation: pulse 3s infinite; }
+        .neon-bg { background-color: rgba(0, 246, 255, 0.1); }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -67,14 +68,8 @@
             color: var(--neon-white);
         }
 
-        .nav-link:hover {
-            color: var(--neon-blue);
-            text-decoration: none;
-        }
-
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
+        .nav-link:hover { color: var(--neon-blue); text-decoration: none; }
+        .product-card:hover { transform: translateY(-5px); }
 
         .login-form input:focus {
             border-color: var(--neon-blue);
@@ -99,36 +94,18 @@
             animation: blink 1s step-end infinite;
         }
 
-       @keyframes blink {
-    from, to { opacity: 1; }
-    50% { opacity: 0; }
-} /* <-- this closing brace was missing */
+        @keyframes blink { from, to { opacity: 1; } 50% { opacity: 0; } }
 
- /* New Shoe Slider Styles */
-.shoe-slider {
-    perspective: 1000px;
-}
-.shoe-slide {
-    transition: transform 0.5s ease;
-}
+        /* New Shoe Slider Styles */
+        .shoe-slider { perspective: 1000px; }
+        .shoe-slide { transition: transform 0.5s ease; }
+        .shoe-slide:hover { transform: translateZ(50px); }
+        .shoe-caption { opacity: 0; transition: opacity 0.3s ease; }
+        .shoe-slide:hover .shoe-caption { opacity: 1; }
 
-        .shoe-slide:hover {
-            transform: translateZ(50px);
-        }
-        .shoe-caption {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .shoe-slide:hover .shoe-caption {
-            opacity: 1;
-        }
         /* Quick View Animation */
-        .quick-view-btn {
-            transform: translate(-50%, -10px) scale(0.9);
-        }
-        .quick-view-btn:hover {
-            transform: translate(-50%, -10px) scale(1);
-        }
+        .quick-view-btn { transform: translate(-50%, -10px) scale(0.9); }
+        .quick-view-btn:hover { transform: translate(-50%, -10px) scale(1); }
     </style>
 <<<<<<< HEAD
      <script async src="https://www.googletagmanager.com/gtag/js?id=G-VG0CBN9X17"></script>
